@@ -5,12 +5,25 @@ var http = require("http"),
 
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
+	var code;
+	if (path.basename(pathname) =="run") {
+		console.log("run the code");
+		pathname = path.dirname(pathname);
+
+	      req.setEncoding("utf8");
+	      req.addListener("data",function(postDataChunk){
+	      code += postDataChunk;
+	      console.log("Received POST data chunk '"+
+	      postDataChunk +"'.");
+            });
+	}
 	if (path.extname(pathname)=="") {
 		pathname+="/";
 	}
 	if (pathname.charAt(pathname.length-1)=="/"){
 		pathname+="index.html";
 	}
+
 
 	fs.exists(pathname,function(exists){
 		if(exists){
@@ -36,7 +49,6 @@ http.createServer(function (req, res) {
 				default:
 					res.writeHead(200, {"Content-Type": "application/octet-stream"});
 			}
-
 			fs.readFile(pathname,function (err,data){
 				res.end(data);
 			});
