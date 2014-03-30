@@ -2,6 +2,7 @@ var http = require("http"),
 	url  = require("url"),
 	path = require("path"),
 	fs   = require("fs");
+	querystring = require("querystring");  
 
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
@@ -13,9 +14,19 @@ http.createServer(function (req, res) {
 	      req.setEncoding("utf8");
 	      req.addListener("data",function(postDataChunk){
 	      code += postDataChunk;
-	      console.log("Received POST data chunk '"+
-	      postDataChunk +"'.");
+
             });
+	      req.setEncoding("utf8");
+	      req.addListener("end",function(postDataChunk){
+	      code += postDataChunk;
+		  console.log(code);
+		  code = querystring.parse(code); 
+	      console.log("Received POST data '"+
+	      code.undefinedtext +"'.");
+            });
+			
+			
+
 	}
 	if (path.extname(pathname)=="") {
 		pathname+="/";
@@ -60,4 +71,4 @@ http.createServer(function (req, res) {
 
 }).listen(8080);
 
-console.log("Server running at port 8080");
+console.log("IDE running at port 8080");
