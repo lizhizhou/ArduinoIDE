@@ -3,6 +3,8 @@ var http = require("http"),
 	path = require("path"),
 	fs   = require("fs");
 	querystring = require("querystring");  
+//	spawn = require('child_process').spawn,
+//  meteroishell    = spawn('dir', ['main.c'], { stdio: 'inherit' });
 
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
@@ -21,12 +23,12 @@ http.createServer(function (req, res) {
 	      code += postDataChunk;
 		  console.log(code);
 		  code = querystring.parse(code); 
-	      console.log("Received POST data '"+
-	      code.undefinedtext +"'.");
-            });
-			
-			
-
+		  code = code.undefinedtext;
+	      console.log(code);
+		  fs.writeFileSync('main.c', code);
+		  
+        });
+		  	
 	}
 	if (path.extname(pathname)=="") {
 		pathname+="/";
@@ -34,7 +36,6 @@ http.createServer(function (req, res) {
 	if (pathname.charAt(pathname.length-1)=="/"){
 		pathname+="index.html";
 	}
-
 
 	fs.exists(pathname,function(exists){
 		if(exists){
