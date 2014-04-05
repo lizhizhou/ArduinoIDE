@@ -3,8 +3,7 @@ var http = require("http"),
 	path = require("path"),
 	fs   = require("fs");
 	querystring = require("querystring");  
-//	spawn = require('child_process').spawn,
-//  meteroishell    = spawn('dir', ['main.c'], { stdio: 'inherit' });
+	p = require('child_process');
 
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
@@ -26,6 +25,16 @@ http.createServer(function (req, res) {
 		  code = code.undefinedtext;
 	      console.log(code);
 		  fs.writeFileSync('main.c', code);
+
+	      p.exec('./meterioshell main.c ',
+      	      function (error,stdout,stderr) {
+		if (error !== null) {
+		  console.log('exec error: ' + error);
+		}
+                console.log(stdout);
+	      });
+
+
 		  
         });
 		  	
@@ -70,6 +79,6 @@ http.createServer(function (req, res) {
 		}
 	});
 
-}).listen(8080);
+}).listen(8888);
 
-console.log("IDE running at port 8080");
+console.log("IDE running at port 8888");
