@@ -26,7 +26,7 @@ http.createServer(function (req, res) {
 	          console.log(code);
 		  fs.writeFileSync('main.c', code);
 
-	      p.exec('./meterioshell main.c ',
+	      p.exec('meteroishell main.c ',
       	      function (error,stdout,stderr) {
 		if (error !== null) {
 		  console.log('exec error: ' + error);
