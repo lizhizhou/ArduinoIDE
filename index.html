@@ -55,7 +55,7 @@
 </head>
 <body>
 <div class="scrollmargin">
-    <span onclick="scroll()" class="large-button">
+    <span onclick="run()" class="large-button">
     run the code
     </span>
     <span onclick="add()" class="large-button" title="Shift+Enter">
@@ -92,10 +92,6 @@ require("ace/commands/default_commands").commands.push({
         dom.toggleCssClass(editor.container, "fullScreen")
         editor.resize()
     }
-}, {
-    name: "add",
-    bindKey: "Shift-Return",
-    exec: add
 })
 
 // create first editor
@@ -104,31 +100,7 @@ editor.setTheme("ace/theme/tomorrow");
 editor.session.setMode("ace/mode/c_cpp");
 
 
-var count = 1;
-function add() {
-    var oldEl = editor.container
-    var pad = document.createElement("div")
-    pad.style.padding = "40px"
-    oldEl.parentNode.insertBefore(pad, oldEl.nextSibling)
-
-    var el = document.createElement("div")
-    oldEl.parentNode.insertBefore(el, pad.nextSibling)
-
-    count++
-    var theme = "ace/theme/" + themes[Math.floor(themes.length * Math.random() - 1e-5)]
-    editor = ace.edit(el)
-    editor.setTheme(theme)
-    editor.session.setMode("ace/mode/javascript")
-
-    editor.setValue([
-        "this is editor number: ", count, "\n",
-        "using theme \"", theme, "\"\n",
-        ":)"
-    ].join(""), -1)
-
-}
-
-function scroll(speed) {
+function run() {
 	var code = editor.getValue();
 	var xhr = new XMLHttpRequest();
 	var post;	
@@ -142,15 +114,6 @@ function scroll(speed) {
 
 }
 
-var themes = {
-    bright: [ "chrome", "clouds", "crimson_editor", "dawn", "dreamweaver", "eclipse", "github",
-        "solarized_light", "textmate", "tomorrow"],
-    dark: [ "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft",
-        "mono_industrial", "monokai", "pastel_on_dark", "solarized_dark",  "tomorrow_night",
-        "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_eighties", "twilight", "vibrant_ink"]
-}
-themes = [].concat(themes.bright, themes.dark)
-setTimeout(function(){ window.scrollTo(0,0) }, 10)
 </script>
 </body>
 </html>
