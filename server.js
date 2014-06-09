@@ -5,9 +5,18 @@ var http = require("http"),
 	querystring = require("querystring");  
 	p = require('child_process');
 
+var debug = true;
+function debuginf(string) {
+	if (debug == true) {
+		console.log(string);
+	}
+}
+var simulation = true;
+var program = null;
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
 	var code;
+	debuginf(pathname);
 	if (path.basename(pathname) =="run") {
 		console.log("run the code");
 		pathname = path.dirname(pathname);
@@ -23,21 +32,22 @@ http.createServer(function (req, res) {
 		  console.log(code);
 		  code = querystring.parse(code); 
 		  code = code.undefinedtext;
-	          console.log(code);
+	      debuginf(code);
 		  fs.writeFileSync('main.c', code);
-
-	      p.exec('meteroishell main.c ',
+	      program = p.exec('meteroishell main.c ',
       	      function (error,stdout,stderr) {
-		if (error !== null) {
-		  console.log('exec error: ' + error);
-		}
+				if (error !== null) {
+				  console.log('exec error: ' + error);
+				}
                 console.log(stdout);
 	      });
-
-
-		  
         });
-		  	
+	}
+	if (path.basename(pathname) =="stop") {
+		if (program != null) {
+			program.kill('SIGTERM');
+			debuginf("stop run");
+		}
 	}
 	if (path.extname(pathname)=="") {
 		pathname+="/";
