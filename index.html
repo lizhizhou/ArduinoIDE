@@ -75,6 +75,14 @@
 	height: 173px;
 	z-index: 3;
 }
+  #apDiv4 {
+	position: absolute;
+	left: 568px;
+	top: 29px;
+	width: 101px;
+	height: 350px;
+	z-index: 4;
+}
   </style>
 </head>
 <body>
@@ -82,28 +90,32 @@
 <span onclick="run()" class="large-button">
     run
 </span>
-<span onclick="stop()" class="large-button" title="Shift+Enter">
+<span onclick="stop()" class="large-button">
     stop
-</span></div>
+</span>
+</div>
 <div id="apDiv2">
 <pre id="editor">
-extern int led0;
-extern int led1;
-extern int led2;
-extern int led3;
 int main(int argn, char* argv[])
 {
-	printf("lizhizhou");
-	set_rgb_led(led0, 255,255,255);
-	set_rgb_led(led1, 255,0 ,255);
-	set_rgb_led(led2, 0 ,255,255);
-	set_rgb_led(led3, 255,255,0);
+	printf("lophilo\n");
 	return 0;
 }
 </pre>
 </div>
 
-<div id="apDiv3"></div>
+<div id="apDiv3">
+  <p>jlkjlj</p>
+  <p>kjjk</p>
+</div>
+<div id="apDiv4">
+<span onclick="ex1()" class="large-button">
+    ex1
+</span><p></p>
+<span onclick="ex2()" class="large-button">
+    ex2
+</span>
+</div>
 <script src="./src/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
 var $ = document.getElementById.bind(document);
@@ -151,6 +163,39 @@ function stop() {
 
 }
 
+function ex1() {
+	var code_ex1 = 
+	"extern int led0;\n" +
+	"extern int led1;\n" +   
+	"extern int led2;\n" +
+	"extern int led3;\n" +
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"set_rgb_led(led0, 255,255,255);\n"+
+	"set_rgb_led(led1, 255,0 ,255);\n" +
+	"set_rgb_led(led2, 0 ,255,255);\n" +
+	"set_rgb_led(led3, 255,255,0);\n"  +
+ 	"return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+}
+
+function ex2() {
+	var code_ex1 = 
+	"extern int led0;\n" +
+	"extern int led1;\n" +   
+	"extern int led2;\n" +
+	"extern int led3;\n" +
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"set_rgb_led(led0, 255,255,255);\n"+
+	"set_rgb_led(led1, 255,255 ,255);\n" +
+	"set_rgb_led(led2, 0 ,255,255);\n" +
+	"set_rgb_led(led3, 0,255,0);\n"  +
+ 	"return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+}
 </script>
 </body>
 </html>
