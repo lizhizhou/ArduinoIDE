@@ -105,8 +105,7 @@ int main(int argn, char* argv[])
 </div>
 
 <div id="apDiv3">
-  <p>jlkjlj</p>
-  <p>kjjk</p>
+
 </div>
 <div id="apDiv4">
 <span onclick="ex1()" class="large-button">
@@ -165,16 +164,12 @@ function stop() {
 
 function ex1() {
 	var code_ex1 = 
-	"extern int led0;\n" +
-	"extern int led1;\n" +   
-	"extern int led2;\n" +
-	"extern int led3;\n" +
 	"int main(int argn, char* argv[])\n" +
 	"{\n" +
-	"    set_rgb_led(led0, 255,255,255);\n"+
-	"    set_rgb_led(led1, 255,0 ,255);\n" +
-	"    set_rgb_led(led2, 0 ,255,255);\n" +
-	"    set_rgb_led(led3, 255,255,0);\n"  +
+	"    led(0, 255,255,255);\n"+
+	"    led(1, 255,0 ,255);\n" +
+	"    led(2, 0 ,255,255);\n" +
+	"    led(3, 255,255,0);\n"  +
  	"    return 0;\n" +
     "}\n"
     editor.setValue(code_ex1);
@@ -182,16 +177,12 @@ function ex1() {
 
 function ex2() {
 	var code_ex1 = 
-	"extern int led0;\n" +
-	"extern int led1;\n" +   
-	"extern int led2;\n" +
-	"extern int led3;\n" +
 	"int main(int argn, char* argv[])\n" +
 	"{\n" +
-	"    set_rgb_led(led0, 255,255,255);\n"+
-	"    set_rgb_led(led1, 255,255 ,255);\n" +
-	"    set_rgb_led(led2, 0 ,255,255);\n" +
-	"    set_rgb_led(led3, 0,255,0);\n"  +
+	"    led(0, 255,255,255);\n"+
+	"    led(1, 255,255 ,255);\n" +
+	"    led(2, 0 ,255,255);\n" +
+	"    led(3, 0,255,0);\n"  +
  	"    return 0;\n" +
     "}\n"
     editor.setValue(code_ex1);
