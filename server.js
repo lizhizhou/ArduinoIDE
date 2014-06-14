@@ -5,18 +5,18 @@ var http = require("http"),
 	querystring = require("querystring");  
 	p = require('child_process');
 
-var debug = true;
+var debug = false;
 function debuginf(string) {
 	if (debug == true) {
 		console.log(string);
 	}
 }
 var simulation = true;
-var program = null;
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
-	var code;
+	var code = '';
 	debuginf(pathname);
+	//response of run command
 	if (path.basename(pathname) =="run") {
 		console.log("run the code");
 		pathname = path.dirname(pathname);
@@ -24,31 +24,33 @@ http.createServer(function (req, res) {
 	      req.setEncoding("utf8");
 	      req.addListener("data",function(postDataChunk){
 	      code += postDataChunk;
-
-            });
+              });
 	      req.setEncoding("utf8");
 	      req.addListener("end",function(postDataChunk){
 	      code += postDataChunk;
-		  console.log(code);
+	      debuginf(code);
 		  code = querystring.parse(code); 
-		  code = code.undefinedtext;
+		  debuginf(code);
+		  code = code.text;
 	      debuginf(code);
 		  fs.writeFileSync('main.c', code);
-	      program = p.exec('meteroishell main.c ',
+	      p.exec('meteroishell main.c ',
       	      function (error,stdout,stderr) {
-				if (error !== null) {
-				  console.log('exec error: ' + error);
-				}
+	      		if (error !== null) {
+	      		  console.log('program stop:');
+	      			}
                 console.log(stdout);
 	      });
+
         });
 	}
+	//response of stop command
 	if (path.basename(pathname) =="stop") {
-		if (program != null) {
-			program.kill('SIGTERM');
-			debuginf("stop run");
-		}
+	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
+      	      function (error,stdout,stderr) {
+	      });
 	}
+	// response of web request
 	if (path.extname(pathname)=="") {
 		pathname+="/";
 	}
