@@ -50,6 +50,12 @@ http.createServer(function (req, res) {
       	      function (error,stdout,stderr) {
 	      });
 	}
+	//response of reboot command
+	if (path.basename(pathname) =="reboot") {
+	      p.exec('reboot',
+      	      function (error,stdout,stderr) {
+	      });
+	}
 	// response of web request
 	if (path.extname(pathname)=="") {
 		pathname+="/";
