@@ -44,6 +44,9 @@
 </style>
 </head>
 <body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <div id="IDE" class="">
 <span onclick="run()" class="btn btn-success" title="run the program">
@@ -52,9 +55,7 @@
 <span onclick="stop()" class="btn btn-warning" title="stop the progrtam">
     stop
 </span>
-<span onclick="api()" class="btn btn-info" title="API Reference Documents" data-content="lizhizou">
-    API DOC
-</span>
+<a href="#myModal" role="button" class="btn btn-info" data-toggle="modal">API DOC</a>
 <span onclick="reboot()" class="btn btn-danger" title="reboot the broad">
     reboot
 </span>
@@ -87,6 +88,8 @@ int main(int argn, char* argv[])
     ex7
 </span>
 </div>
+
+
 
 <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -132,10 +135,6 @@ function stop() {
 	post = "";
 	xhr.send(post);
 	console.log(xhr.status);	
-
-}
-
-function api() {
 
 }
 
@@ -237,8 +236,20 @@ function ex6() {
 }
 
 </script>
-<script src="http://code.jquery.com/jquery.js"></script>
 
+<!-- 对话框 -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="ModalLabel">API Reference Document</h3>
+  </div>
+  <div class="modal-body">
+    <p>对话框主体内容 ...…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
 
 </body>
 </html>
