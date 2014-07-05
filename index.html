@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+  
 <title>Editor</title>
   <style type="text/css" media="screen">
 
     .ace_editor {
         position: relative !important;
         border: 1px solid lightgray;
-        margin: auto;
+        margin: 0;
         height: 600px;
         width: 80%;
     }
@@ -37,64 +41,23 @@
 	text-align: left;
     }
 
-    .large-button {
-        color: lightblue;
-        cursor: pointer;
-        font: 30px arial;
-        padding: 20px;
-        text-align: center;
-        border: medium solid transparent;
-        display: inline-block;
-    }
-    .large-button:hover {
-        border: medium solid lightgray;
-        border-radius: 10px 10px 10px 10px;
-        box-shadow: 0 0 12px 0 lightblue;
-    }
-  #apDiv1 {
-	position: absolute;
-	left: 5px;
-	top: 3px;
-	width: 552px;
-	height: 57px;
-	z-index: 1;
-}
-  #apDiv2 {
-	position: absolute;
-	left: 3px;
-	top: 91px;
-	width: 553px;
-	height: 214px;
-	z-index: 2;
-}
-  #apDiv3 {
-	position: absolute;
-	left: 2px;
-	top: 456px;
-	width: 555px;
-	height: 173px;
-	z-index: 3;
-}
-  #apDiv4 {
-	position: absolute;
-	left: 568px;
-	top: 29px;
-	width: 101px;
-	height: 350px;
-	z-index: 4;
-}
-  </style>
+</style>
 </head>
 <body>
-<div id="apDiv1">    
-<span onclick="run()" class="large-button">
+<script src="js/bootstrap.min.js"></script>
+<div id="IDE" class="">
+<span onclick="run()" class="btn btn-success" title="run the program">
     run
 </span>
-<span onclick="stop()" class="large-button">
+<span onclick="stop()" class="btn btn-warning" title="stop the progrtam">
     stop
 </span>
-</div>
-<div id="apDiv2">
+<span onclick="api()" class="btn btn-info" title="API Reference Documents" data-content="lizhizou">
+    API DOC
+</span>
+<span onclick="reboot()" class="btn btn-danger" title="reboot the broad">
+    reboot
+</span>
 <pre id="editor">
 int main(int argn, char* argv[])
 {
@@ -102,20 +65,30 @@ int main(int argn, char* argv[])
 	return 0;
 }
 </pre>
-</div>
-
-<div id="apDiv3">
-
-</div>
-<div id="apDiv4">
-<span onclick="ex1()" class="large-button">
+<span onclick="ex1()" class="btn btn-info">
     ex1
-</span><p></p>
-<span onclick="ex2()" class="large-button">
+</span>
+<span onclick="ex2()" class="btn btn-info">
     ex2
 </span>
+<span onclick="ex3()" class="btn btn-info">
+    ex3
+</span>
+<span onclick="ex4()" class="btn btn-info">
+    ex4
+</span>
+<span onclick="ex5()" class="btn btn-info">
+    ex5
+</span>
+<span onclick="ex6()" class="btn btn-info">
+    ex6
+</span>
+<span onclick="ex7()" class="btn btn-info">
+    ex7
+</span>
 </div>
-<script src="./src/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
 var $ = document.getElementById.bind(document);
 var dom = require("ace/lib/dom");
@@ -162,6 +135,22 @@ function stop() {
 
 }
 
+function api() {
+
+}
+
+function reboot() {
+	var xhr = new XMLHttpRequest();
+	var post;	
+	console.log("reboot");
+    xhr.open("post","reboot",false);
+	xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
+	post = "";
+	xhr.send(post);
+	console.log(xhr.status);	
+
+}
+
 function ex1() {
 	var code_ex1 = 
 	"int main(int argn, char* argv[])\n" +
@@ -173,9 +162,25 @@ function ex1() {
  	"    return 0;\n" +
     "}\n"
     editor.setValue(code_ex1);
+	editor.clearSelection();
 }
 
 function ex2() {
+	var code_ex1 = 
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"    led(0, 255, 0, 255);\n" +
+	"    sleep(1);\n"            +
+	"    led(0, 255, 255 ,0);\n" +
+	"    sleep(1);\n"            +
+	"    led(0, 0,255 , 255);\n" +
+ 	"    return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+	editor.clearSelection();
+}
+
+function ex3() {
 	var code_ex1 = 
 	"int main(int argn, char* argv[])\n" +
 	"{\n" +
@@ -186,7 +191,54 @@ function ex2() {
  	"    return 0;\n" +
     "}\n"
     editor.setValue(code_ex1);
+	editor.clearSelection();
 }
+
+function ex4() {
+	var code_ex1 = 
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"    led(0, 255,255,255);\n"+
+	"    led(1, 255,255 ,255);\n" +
+	"    led(2, 0 ,255,255);\n" +
+	"    led(3, 0,255,0);\n"  +
+ 	"    return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+	editor.clearSelection();
+}
+
+function ex5() {
+	var code_ex1 = 
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"    led(0, 255,255,255);\n"+
+	"    led(1, 255,255 ,255);\n" +
+	"    led(2, 0 ,255,255);\n" +
+	"    led(3, 0,255,0);\n"  +
+ 	"    return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+	editor.clearSelection();
+}
+
+function ex6() {
+	var code_ex1 = 
+	"int main(int argn, char* argv[])\n" +
+	"{\n" +
+	"    led(0, 255,255,255);\n"+
+	"    led(1, 255,255 ,255);\n" +
+	"    led(2, 0 ,255,255);\n" +
+	"    led(3, 0,255,0);\n"  +
+ 	"    return 0;\n" +
+    "}\n"
+    editor.setValue(code_ex1);
+	editor.clearSelection();
+}
+
 </script>
+<script src="http://code.jquery.com/jquery.js"></script>
+
+
 </body>
 </html>
