@@ -56,6 +56,18 @@ http.createServer(function (req, res) {
       	      function (error,stdout,stderr) {
 	      });
 	}
+	//response of error message
+	if (path.basename(pathname) =="error") {
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end("error message");
+	}
+	
+	//response of console message
+	if (path.basename(pathname) =="console") {
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end("console message");
+	}
+	
 	// response of web request
 	if (path.extname(pathname)=="") {
 		pathname+="/";

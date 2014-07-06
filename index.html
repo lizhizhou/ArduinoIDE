@@ -88,6 +88,23 @@ int main(int argn, char* argv[])
     ex7
 </span>
 </div>
+<div id="error" class="bs-callout bs-callout-danger"></div>
+<div class="panel panel-default">
+<span onclick="clean()" class="btn btn-warning" title="clear the console log">
+    Clear console
+	</span>
+<div class="panel-heading">
+    <a data-toggle="collapse" data-parent="#accordion" href="#console">
+    <div class="alert alert-info" role="alert"><b>Console</b>
+    </div>
+    </a>
+</div>
+<div id="console" class="panel-collapse collapse">
+  </div>
+</div>
+</div>
+<div>
+
 
 <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -230,8 +247,23 @@ int main(int argn, char* argv[])
 		"}\n"
 		editor.setValue(code_ex1);
 		editor.clearSelection();
+
 	}
 
+	function clean() {
+		document.getElementById("console").innerHTML = " ";	
+	};		
+
+	function polling(){
+		var xhr = new XMLHttpRequest();	
+		console.log("console");
+		xhr.open("get","console",false);
+		xhr.send();
+		var get = xhr.responseText;
+		document.getElementById("console").innerHTML += "<p>"+ get+"<\p>";
+	}; 
+	setInterval(polling, 1000);
+    
 </script>
 
 <!-- API reference doc-->
