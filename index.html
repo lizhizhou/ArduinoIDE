@@ -236,30 +236,71 @@ int main(int argn, char* argv[])
 
 <!-- API reference doc-->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="ModalLabel">API Reference Document</h3>
-	</div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="ModalLabel">API Reference Document</h3>
+    </div>
     <div class="modal-body">
-      <div class="alert alert-info" role="alert"><b>void led(int id, char r, char g, char b)</b></div>
-      <p>Functionality: Sleep for seconds</p>
-      <p>Argument: </p>
-      <p>id: The id of led can be 0-3</p>
-      <p>r: The red color of led</p>
-      <p>g: The greem color of led</p>
-      <p>b: The blue color of led</p>
-      <div class="alert alert-info" role="alert"><b>unsigned int sleep (unsigned int seconds)</b></div>
-      <p>Functionality: Sleep for seconds</p>
-      <p>Argument: </p>
-      <p>seconds The seconds for sleeping</p>
-      <div class="alert alert-info" role="alert"><b>int usleep (int useconds)</b></div>
-      <p>Functionality: Sleep for micro seconds</p>
-      <p>Argument: </p>
-      <p>usecods: The micro seconds for sleeping</p>
-      <div class="alert alert-info" role="alert"><b>int printf (char * format, ...)</b></div>
-      <p>Functionality: print the string to the console</p>
-      <p>Argument: </p>
-      <p>format:output format string</p>
+      <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                <div class="alert alert-info" role="alert"><b>void led(int id, char r, char g, char b)</b></div>
+                </a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+              <div class="panel-body">
+                  <p>Functionality: Sleep for seconds</p>
+                  <p>Argument: </p>
+                  <p>id: The id of led can be 0-3</p>
+                  <p>r: The red color of led</p>
+                  <p>g: The greem color of led</p>
+                  <p>b: The blue color of led</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+              <div class="alert alert-info" role="alert"><b>unsigned int sleep (unsigned int seconds)</b></div>
+              </a>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <div class="panel-body">
+                  <p>Functionality: Sleep for seconds</p>
+                  <p>Argument: </p>
+                  <p>seconds The seconds for sleeping</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                <div class="alert alert-info" role="alert"><b>int usleep (int useconds)</b></div>
+                </a>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p>Functionality: Sleep for micro seconds</p>
+                <p>Argument: </p>
+                <p>usecods: The micro seconds for sleeping</p>
+              </div>
+            </div>
+          </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                <div class="alert alert-info" role="alert"><b>int printf (char * format, ...)</b></div>
+                </a>
+            </div>
+            <div id="collapse4" class="panel-collapse collapse">
+              <div class="panel-body">
+                  <p>Functionality: print the string to the console</p>
+                  <p>Argument: </p>
+                  <p>format:output format string</p>
+              </div>
+            </div>
+          </div>
     </div>
     <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
