@@ -50,18 +50,16 @@ http.createServer(function (req, res) {
 	if (path.basename(pathname) =="stop") {
 	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
       	      function (error,stdout,stderr) {
-                debuginf("stop");
+		debuginf("stop");
                 debuginf(stdout);
-				console_message += error;
 	      });
 	}
 	//response of reboot command
 	if (path.basename(pathname) =="reboot") {
 	      p.exec('sudo reboot',
       	      function (error,stdout,stderr) {
-                console.log("reboot");
-				debuginf(stdout);
-				console_message += error;
+		console.log("reboot");
+		debuginf(stdout);
 	      });
 	}
 	//response of error message
