@@ -41,7 +41,6 @@ http.createServer(function (req, res) {
 	      		if (error !== null) {
 	      		  console.log('program stop:');
 	      			}
-                console.log(stdout);
 		console_message += stdout;
                 error_message += stderr;
 
@@ -59,11 +58,9 @@ http.createServer(function (req, res) {
 	}
 	//response of reboot command
 	if (path.basename(pathname) =="reboot") {
-	      p.exec('reboot',
+	      p.exec('sudo reboot',
       	      function (error,stdout,stderr) {
                 console.log("reboot");
-                console.log(stdout);
-                console.log(stderr);
 		console_message += error;
 	      });
 	}
