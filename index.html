@@ -172,12 +172,13 @@ int main(int argn, char* argv[])
 		var xhr = new XMLHttpRequest();
 		var post;	
 		console.log("reboot");
+		page_refresh();
 		xhr.open("post","reboot",false);
 		xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
 		post = "";
 		xhr.send(post);
 		console.log(xhr.status);	
-	
+
 	}
 	
 	function ex1() {
@@ -292,6 +293,14 @@ int main(int argn, char* argv[])
 	}; 
 	setInterval(error_polling, 1000);
     
+	function delay_refresh() {
+		window.location.reload(); 
+	}
+	function page_refresh() {
+		setTimeout('delay_refresh()',8000); 
+
+	}
+	
 </script>
 
 <!-- API reference doc-->
