@@ -20,7 +20,7 @@ http.createServer(function (req, res) {
 	debuginf(pathname);
 	//response of run command
 	if (path.basename(pathname) =="run") {
-		console.log("run the code");
+		debuginf("run the code");
 		pathname = path.dirname(pathname);
 
 	      req.setEncoding("utf8");
@@ -39,21 +39,20 @@ http.createServer(function (req, res) {
 	      p.exec('meteroishell main.c ',
       	      function (error,stdout,stderr) {
 	      		if (error !== null) {
-	      		  console.log('program stop:');
-	      			}
-		console_message += stdout;
-                error_message += stderr;
-
+	      		  debuginf('program stop:');
+	      		}
+				console_message += stdout;
+				error_message += stderr;
 	      });
-
         });
 	}
 	//response of stop command
 	if (path.basename(pathname) =="stop") {
 	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
       	      function (error,stdout,stderr) {
-                console.log("stop");
-                console.log(stdout);
+                debuginf("stop");
+                debuginf(stdout);
+				console_message += error;
 	      });
 	}
 	//response of reboot command
@@ -61,7 +60,8 @@ http.createServer(function (req, res) {
 	      p.exec('sudo reboot',
       	      function (error,stdout,stderr) {
                 console.log("reboot");
-		console_message += error;
+				debuginf(stdout);
+				console_message += error;
 	      });
 	}
 	//response of error message
