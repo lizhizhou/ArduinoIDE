@@ -12,6 +12,8 @@ function debuginf(string) {
 	}
 }
 var simulation = true;
+var console_message = "";
+var error_message = "";
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
 	var code = '';
@@ -40,6 +42,9 @@ http.createServer(function (req, res) {
 	      		  console.log('program stop:');
 	      			}
                 console.log(stdout);
+		console_message += stdout;
+                error_message += stderr;
+
 	      });
 
         });
@@ -48,24 +53,32 @@ http.createServer(function (req, res) {
 	if (path.basename(pathname) =="stop") {
 	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
       	      function (error,stdout,stderr) {
+                console.log("stop");
+                console.log(stdout);
 	      });
 	}
 	//response of reboot command
 	if (path.basename(pathname) =="reboot") {
 	      p.exec('reboot',
       	      function (error,stdout,stderr) {
+                console.log("reboot");
+                console.log(stdout);
+                console.log(stderr);
+		console_message += error;
 	      });
 	}
 	//response of error message
 	if (path.basename(pathname) =="error") {
 		res.writeHead(200, {"Content-Type": "text/html"});
-		res.end("error message");
+		res.end(error_message);
+		error_message = "";
 	}
 	
 	//response of console message
 	if (path.basename(pathname) =="console") {
 		res.writeHead(200, {"Content-Type": "text/html"});
-		res.end("console message");
+		res.end(console_message);
+		console_message = "";
 	}
 	
 	// response of web request
