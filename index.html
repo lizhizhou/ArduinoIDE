@@ -18,7 +18,7 @@
         border: 1px solid lightgray;
         margin: 0;
         height: 600px;
-        width: 80%;
+        width: 40%;
     }
 
     .ace_editor.fullScreen {
@@ -47,17 +47,32 @@
 </style>
 </head>
 <body>
-
+<img id=broadpic src="" alt="">
 <div id="IDE" class="">
-<span onclick="run()" class="btn btn-success" title="run the program">
+  <span onclick="run()" class="btn btn-success" title="run the program">
     run
-</span>
-<span onclick="stop()" class="btn btn-warning" title="stop the progrtam">
+  </span>
+  <span onclick="stop()" class="btn btn-warning" title="stop the progrtam">
     stop
-</span>
-<a href="#myModal" role="button" class="btn btn-info" data-toggle="modal">API DOC</a>
-<span onclick="reboot()" class="btn btn-danger" title="reboot the broad">
+  </span>
+  <a href="#myModal" role="button" class="btn btn-info" data-toggle="modal">API DOC</a>
+  <span onclick="reboot()" class="btn btn-danger" title="reboot the broad">
     reboot
+  </span>
+  <span>
+  <div class="btn-group">
+<button type="button" class="btn btn-primary">
+Configrations
+</button>
+<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+</button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#" onClick="document.getElementById('broadpic').src = '1.jpg';">basic</a></li>
+    <li><a href="#" onClick="document.getElementById('broadpic').src = '2.jpg';">PWM</a></li>
+    <li><a href="#" onClick="document.getElementById('broadpic').src = '3.jpg';">Analog</a></li>
+  </ul>
+</div>
 </span>
 <pre id="editor">
 int main(int argn, char* argv[])
@@ -282,7 +297,7 @@ int main(int argn, char* argv[])
 		var get = xhr.responseText;
 		document.getElementById("console").innerHTML += "<p>"+ get+"<\p>";
 	}; 
-	setInterval(console_polling, 1000);
+	//setInterval(console_polling, 1000);
 	
 	function error_polling(){
 		var xhr = new XMLHttpRequest();	
@@ -291,7 +306,7 @@ int main(int argn, char* argv[])
 		var get = xhr.responseText;
 		document.getElementById("error").innerHTML += "<p>"+ get+"<\p>";
 	}; 
-	setInterval(error_polling, 1000);
+	//setInterval(error_polling, 1000);
     
 	function delay_refresh() {
 		window.location.reload(); 
