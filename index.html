@@ -18,7 +18,7 @@
         border: 1px solid lightgray;
         margin: 0;
         height: 600px;
-        width: 40%;
+        width: 100%;
     }
 
     .ace_editor.fullScreen {
@@ -67,10 +67,10 @@ Configrations
 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
 </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#" onClick="document.getElementById('broadpic').src = '1.jpg';">basic</a></li>
-    <li><a href="#" onClick="document.getElementById('broadpic').src = '2.jpg';">PWM</a></li>
-    <li><a href="#" onClick="document.getElementById('broadpic').src = '3.jpg';">Analog</a></li>
+  <ul id=version_list class="dropdown-menu" role="menu">
+
+    <li><a href="#" onClick= configrations(event)>PWM</a></li>
+    <li><a href="#" onClick= configrations(event)>Analog</a></li>
   </ul>
 </div>
 </span>
@@ -139,6 +139,25 @@ int main(int argn, char* argv[])
 
 <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
+    var debug = true;
+	function debuginf(string) {
+		if (debug == true) {
+			console.log(string);
+		}
+	}
+	function ajax_rest_post(url, arg) {
+		var xhr = new XMLHttpRequest();
+		var post;
+		xhr.open("post",url,false);
+		xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
+		if (arg != undefined) 
+			post = encodeURIComponent("text") + "=" + encodeURIComponent(arg) + "&";
+		else
+			post = null;
+		xhr.send(post);
+		debuginf(xhr.status);	
+	}
+
 	var dom = require("ace/lib/dom");
 	
 	//add command to all new editor instaces
@@ -157,43 +176,31 @@ int main(int argn, char* argv[])
 	editor.setTheme("ace/theme/tomorrow");
 	editor.session.setMode("ace/mode/c_cpp");
 	
+
+	// event handle for webpage
+	function configrations(event){
+		version = event.srcElement.innerText;
+		document.getElementById('broadpic').src = 'config/'+version+'.jpg';
+		debuginf("configrations");
+		debuginf(version);
+		ajax_rest_post("config",version);
+
+	}
 	function run() {
 		var code = editor.getValue();
-		var xhr = new XMLHttpRequest();
-		var post;	
-		console.log("run");
-		console.log(code);
-		xhr.open("post","run",false);
-		xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
-		post = encodeURIComponent("text") + "=" + encodeURIComponent(code) + "&";
-		xhr.send(post);
-		console.log(xhr.status);	
-	
+		debuginf("run");
+		debuginf(code);
+		ajax_rest_post("run",code);
 	}
 	
 	function stop() {
-		var xhr = new XMLHttpRequest();
-		var post;	
-		console.log("stop");
-		xhr.open("post","stop",false);
-		xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
-		post = "";
-		xhr.send(post);
-		console.log(xhr.status);	
-	
+		debuginf("stop");
+		ajax_rest_post("stop");
 	}
 	
 	function reboot() {
-		var xhr = new XMLHttpRequest();
-		var post;	
-		console.log("reboot");
-		page_refresh();
-		xhr.open("post","reboot",false);
-		xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded")
-		post = "";
-		xhr.send(post);
-		console.log(xhr.status);	
-
+		debuginf("reboot");
+		ajax_rest_post("reboot");
 	}
 	
 	function ex1() {
@@ -314,6 +321,28 @@ int main(int argn, char* argv[])
 	function page_refresh() {
 		setTimeout('delay_refresh()',60000); 
 
+	}
+	
+	window.onload=function() {
+		var xhr = new XMLHttpRequest();	
+		xhr.open("get","load",false);
+		xhr.send();
+		var versionlist = xhr.responseText;
+		debuginf(versionlist);
+		var list = versionlist.split(',');
+		var html_list = "";
+		debuginf(list);
+		for (var index in list) {
+			debuginf(list[index]);
+			var name = list[index].split('.')[0];
+			var ext  = list[index].split('.')[1];
+			if (ext == 'jpg') {
+				html_list += "<li><a href='#' onClick= configrations(event)>"+ 
+				name +"</a></li>";
+			}
+		}
+		document.getElementById("version_list").innerHTML = html_list;
+		debuginf(list);
 	}
 	
 </script>

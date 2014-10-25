@@ -5,7 +5,7 @@ var http = require("http"),
 	querystring = require("querystring");  
 	p = require('child_process');
 
-var debug = false;
+var debug = true;
 function debuginf(string) {
 	if (debug == true) {
 		console.log(string);
@@ -16,9 +16,45 @@ var console_message = "";
 var error_message = "";
 http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
+	var version = '';
 	var code = '';
+	debuginf(path.basename);
 	debuginf(pathname);
 	//response of run command
+	if (path.basename(pathname) == "load") {
+		var list = fs.readdirSync("config");
+		var versionlist = list.toString();
+		debuginf(versionlist);
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(versionlist);
+	}
+	
+	if (path.basename(pathname) =="config") {
+		debuginf("config fpga");
+		pathname = path.dirname(pathname);
+
+	      req.setEncoding("utf8");
+	      req.addListener("data",function(postDataChunk){
+	      version += postDataChunk;
+              });
+	      req.setEncoding("utf8");
+	      req.addListener("end",function(postDataChunk){
+	      version += postDataChunk;
+	      debuginf(version);
+		  version = querystring.parse(version); 
+		  debuginf(version);
+		  version = version.text;
+	      debuginf(version);
+	      p.exec('fpga_download' + version,
+      	      function (error,stdout,stderr) {
+	      		if (error !== null) {
+
+	      		}
+				console_message += stdout;
+				error_message += stderr;
+	      });
+		 });
+	}
 	if (path.basename(pathname) =="run") {
 		debuginf("run the code");
 		pathname = path.dirname(pathname);
@@ -50,7 +86,7 @@ http.createServer(function (req, res) {
 	if (path.basename(pathname) =="stop") {
 	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
       	      function (error,stdout,stderr) {
-		debuginf("stop");
+		        debuginf("stop");
                 debuginf(stdout);
 	      });
 	}
@@ -58,8 +94,8 @@ http.createServer(function (req, res) {
 	if (path.basename(pathname) =="reboot") {
 	      p.exec('sudo reboot',
       	      function (error,stdout,stderr) {
-		console.log("reboot");
-		debuginf(stdout);
+		        console.log("reboot");
+		        debuginf(stdout);
 	      });
 	}
 	//response of error message
