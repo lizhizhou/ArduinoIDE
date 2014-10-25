@@ -18,15 +18,47 @@ http.createServer(function (req, res) {
 	var pathname=__dirname+url.parse(req.url).pathname;
 	var version = '';
 	var code = '';
+	var filename = 'default';
 	debuginf(path.basename);
 	debuginf(pathname);
 	//response of run command
-	if (path.basename(pathname) == "load") {
+	
+	if (path.basename(pathname) =="save") {
+		debuginf("save the code");
+		pathname = path.dirname(pathname);
+
+		  req.setEncoding("utf8");
+		  req.addListener("data",function(postDataChunk){
+		  code += postDataChunk;
+			  });
+		  req.setEncoding("utf8");
+		  req.addListener("end",function(postDataChunk){
+		  code += postDataChunk;
+		  debuginf(code);
+		  code = querystring.parse(code); 
+		  debuginf(code);
+		  filename = code.arg1;
+		  code = code.arg2;
+		  debuginf(code);
+		  debuginf(filename);
+		  fs.writeFileSync('program/'+ filename +'.c', code);
+        });
+	}
+	
+	if (path.basename(pathname) == "load_config") {
 		var list = fs.readdirSync("config");
 		var versionlist = list.toString();
 		debuginf(versionlist);
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(versionlist);
+	}
+	
+	if (path.basename(pathname) == "load_example") {
+		var list = fs.readdirSync("program");
+		var programlist = list.toString();
+		debuginf(programlist);
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(programlist);
 	}
 	
 	if (path.basename(pathname) =="config") {
@@ -43,7 +75,7 @@ http.createServer(function (req, res) {
 	      debuginf(version);
 		  version = querystring.parse(version); 
 		  debuginf(version);
-		  version = version.text;
+		  version = version.arg1;
 	      debuginf(version);
 	      p.exec('fpga_download' + version,
       	      function (error,stdout,stderr) {
@@ -69,7 +101,7 @@ http.createServer(function (req, res) {
 	      debuginf(code);
 		  code = querystring.parse(code); 
 		  debuginf(code);
-		  code = code.text;
+		  code = code.arg1;
 	      debuginf(code);
 		  fs.writeFileSync('main.c', code);
 	      p.exec('meteroishell main.c ',
@@ -111,7 +143,7 @@ http.createServer(function (req, res) {
 		res.end(console_message);
 		console_message = "";
 	}
-	
+
 	// response of web request
 	if (path.extname(pathname)=="") {
 		pathname+="/";
@@ -140,6 +172,9 @@ http.createServer(function (req, res) {
 					break;
 				case ".png":
 					res.writeHead(200, {"Content-Type": "image/png"});
+					break;
+				case ".c":
+					res.writeHead(200, {"Content-Type": "text/html"});
 					break;
 				default:
 					res.writeHead(200, {"Content-Type": "application/octet-stream"});
