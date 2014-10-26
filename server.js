@@ -45,6 +45,26 @@ http.createServer(function (req, res) {
         });
 	}
 	
+	if (path.basename(pathname) =="delete") {
+		debuginf("delete the code");
+		pathname = path.dirname(pathname);
+
+		  req.setEncoding("utf8");
+		  req.addListener("data",function(postDataChunk){
+		  code += postDataChunk;
+			  });
+		  req.setEncoding("utf8");
+		  req.addListener("end",function(postDataChunk){
+		  code += postDataChunk;
+		  debuginf(code);
+		  code = querystring.parse(code); 
+		  debuginf(code);
+		  filename = code.arg1;
+		  debuginf(filename);
+		  fs.unlink('program/'+ filename +'.c');
+        });
+	}
+	
 	if (path.basename(pathname) == "load_config") {
 		var list = fs.readdirSync("config");
 		var versionlist = list.toString();
