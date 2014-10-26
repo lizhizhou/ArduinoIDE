@@ -176,6 +176,9 @@ http.createServer(function (req, res) {
 				case ".c":
 					res.writeHead(200, {"Content-Type": "text/html"});
 					break;
+				case ".h":
+					res.writeHead(200, {"Content-Type": "text/html"});
+					break;
 				default:
 					res.writeHead(200, {"Content-Type": "application/octet-stream"});
 			}

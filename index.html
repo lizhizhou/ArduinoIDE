@@ -56,7 +56,7 @@
   <span onclick="stop()" class="btn btn-warning" title="stop the progrtam">
     stop
   </span>
-  <a href="#api_doc" role="button" class="btn btn-info" data-toggle="modal" title="show the API">API</a>
+  <a href="#api_doc" role="button" class="btn btn-info" data-toggle="modal" onclick="load_api()" title="show the API">API</a>
   <span onclick="reboot()" class="btn btn-danger" title="reboot the broad">
     reboot
   </span>
@@ -157,48 +157,6 @@ int main(int argn, char* argv[])
               </div>
             </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-              <div class="alert alert-info" role="alert"><b>unsigned int sleep (unsigned int seconds)</b></div>
-              </a>
-            </div>
-            <div id="collapse2" class="panel-collapse collapse">
-              <div class="panel-body">
-                  <p>Functionality: Sleep for seconds</p>
-                  <p>Argument: </p>
-                  <p>seconds The seconds for sleeping</p>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                <div class="alert alert-info" role="alert"><b>int usleep (int useconds)</b></div>
-                </a>
-            </div>
-            <div id="collapse3" class="panel-collapse collapse">
-              <div class="panel-body">
-                <p>Functionality: Sleep for micro seconds</p>
-                <p>Argument: </p>
-                <p>usecods: The micro seconds for sleeping</p>
-              </div>
-            </div>
-          </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-                <div class="alert alert-info" role="alert"><b>int printf (char * format, ...)</b></div>
-                </a>
-            </div>
-            <div id="collapse4" class="panel-collapse collapse">
-              <div class="panel-body">
-                  <p>Functionality: print the string to the console</p>
-                  <p>Argument: </p>
-                  <p>format:output format string</p>
-              </div>
-            </div>
-          </div>
     </div>
     <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
@@ -267,6 +225,59 @@ int main(int argn, char* argv[])
 		document.getElementById("Ex").innerHTML = html_list;
 	}
 	
+	function is_function_type(str)
+	{
+		var re = new RegExp(".*\\(.*\\);");
+		return str.match(re);
+	}
+	
+	function is_comments(str)
+	{
+		var re = new RegExp(".*//(.*)");
+		return str.match(re);
+	}
+	
+	function load_api() {
+		var xhr = new XMLHttpRequest();	
+		xhr.open("get","doc/lophilo.h",false);
+		xhr.send();
+		var api_doc = xhr.responseText;
+		debuginf(api_doc);
+		var api_doc_lines = api_doc.split('\n');
+		debuginf(api_doc_lines);
+		var html_list = "";
+		var i = 0, j = 0;
+		var math;
+		var comments_html = "";
+		while (api_doc_lines[i]) {
+			while(math = is_comments(api_doc_lines[i])) {
+				comments_html += '<p>' + math[1] + '</p>';
+				i++;
+			}
+			if(is_function_type(api_doc_lines[i])) {
+				html_list += '<div class="panel panel-default"> \
+				<div class="panel-heading"> \
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse'+ j +'"> \
+				<div class="alert alert-info" role="alert"><b>' + api_doc_lines[i] + '</b></div> \
+				</a> \
+				</div> \
+				<div id="collapse'+ j + '" class="panel-collapse collapse"> \
+				<div class="panel-body">' 
+				j++;
+				html_list += comments_html;
+				html_list +=
+				'</div> \
+				</div> \
+				</div>'
+				comments_html = "";
+			}
+			i++;
+		}
+		debuginf(html_list);
+		document.getElementById("accordion").innerHTML = html_list;
+	}
+	
+	
 	var dom = require("ace/lib/dom");
 	//add command to all new editor instaces
 	require("ace/commands/default_commands").commands.push({
@@ -320,7 +331,6 @@ int main(int argn, char* argv[])
 		debuginf("configrations");
 		debuginf(version);
 		ajax_rest_post("config",version);
-
 	}
 	
 	function load_example(event) {
@@ -352,7 +362,7 @@ int main(int argn, char* argv[])
 		var get = xhr.responseText;
 		document.getElementById("console").innerHTML += "<p>"+ get+"<\p>";
 	}; 
-	//setInterval(console_polling, 1000);
+	setInterval(console_polling, 1000);
 	
 	function error_polling(){
 		var xhr = new XMLHttpRequest();	
@@ -361,7 +371,7 @@ int main(int argn, char* argv[])
 		var get = xhr.responseText;
 		document.getElementById("error").innerHTML += "<p>"+ get+"<\p>";
 	}; 
-	//setInterval(error_polling, 1000);
+	setInterval(error_polling, 1000);
     
 	function delay_refresh() {
 		window.location.reload(); 
