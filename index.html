@@ -266,7 +266,7 @@ int main(int argn, char* argv[])
 		var i = 0, j = 0;
 		var math;
 		var comments_html = "";
-		while (api_doc_lines[i]) {
+		while (i < api_doc_lines.length) {
 			while(math = is_comments(api_doc_lines[i])) {
 				comments_html += '<p>' + math[1] + '</p>';
 				i++;
