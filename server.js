@@ -97,7 +97,7 @@ http.createServer(function (req, res) {
 		  debuginf(version);
 		  version = version.arg1;
 	      debuginf(version);
-	      p.exec('fpga_download' + version,
+	      p.exec('fpga_config.sh ' + 'config/' + version +'.rbf',
       	      function (error,stdout,stderr) {
 	      		if (error !== null) {
 
