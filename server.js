@@ -97,7 +97,7 @@ http.createServer(function (req, res) {
 		  debuginf(version);
 		  version = version.arg1;
 	      debuginf(version);
-	      p.exec('fpga_config.sh ' + 'config/' + version +'.rbf',
+	      p.exec('$(pwd)/fpga_config.sh ' + 'config/' + version +'.rbf',
       	      function (error,stdout,stderr) {
 	      		if (error !== null) {
 
@@ -124,7 +124,7 @@ http.createServer(function (req, res) {
 		  code = code.arg1;
 	      debuginf(code);
 		  fs.writeFileSync('main.c', code);
-	      p.exec('meteroishell main.c ',
+	      p.exec('$(pwd)/meteroishell main.c ',
       	      function (error,stdout,stderr) {
 	      		if (error !== null) {
 	      		  debuginf('program stop:');
