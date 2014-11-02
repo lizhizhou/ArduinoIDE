@@ -140,8 +140,9 @@ http.createServer(function (req, res) {
         	        	      		  debuginf('run error:');
         	        				  error_message += stderr;
         	        	      	    } else {
-        	        					console_message += stdout;
+
         	        	      	    }
+    	        					console_message += stdout;
         	      	      });
         	      	    } 
         	  });
@@ -160,11 +161,20 @@ http.createServer(function (req, res) {
 	}
 	// response of stop command
 	if (path.basename(pathname) =="stop") {
-	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
-      	      function (error,stdout,stderr) {
-		        debuginf("stop");
-                debuginf(stdout);
-	      });
+	      if (gcc == true) {
+		      p.exec('ps -ef |grep main |grep -v grep|awk \'{print $2}\' | xargs kill -9',
+	      	      function (error,stdout,stderr) {
+			        debuginf("stop");
+	                debuginf(stdout);
+		      });
+	      } else {
+		      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
+		      	      function (error,stdout,stderr) {
+				        debuginf("stop");
+		                debuginf(stdout);
+			      });	    	  
+	      
+	      }
 	}
 	// response of reboot command
 	if (path.basename(pathname) =="reboot") {
