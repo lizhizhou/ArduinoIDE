@@ -134,7 +134,7 @@ http.createServer(function (req, res) {
         	      		  debuginf('compile error:');
         				  error_message += stderr + stdout;
         	      	    } else {
-        	      	      p.exec('$(pwd)/main',
+        	      	      shell = p.exec('$(pwd)/main',
         	              	      function (error,stdout,stderr) {
         	        	      		if (error !== null) {
         	        	      		  debuginf('run error:');
@@ -142,7 +142,9 @@ http.createServer(function (req, res) {
         	        	      	    } else {
 
         	        	      	    }
-    	        					console_message += stdout;
+        	      	      });
+        	      	      shell.stdout.on('data', function (data) {
+        	      	    	  console_message += data;
         	      	      });
         	      	    } 
         	  });
