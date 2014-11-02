@@ -127,8 +127,8 @@ http.createServer(function (req, res) {
 	      
 	      debuginf(code);
           fs.writeFileSync('main.c', code);	      
-	      if (gcc == true) { //api/libmeteroishell.a
-              p.exec('gcc main.c  -o main',
+	      if (gcc == true) {
+              p.exec('gcc main.c api/libmeteroishell.a -o main',
               	      function (error,stdout,stderr) {
         	      		if (error !== null) {
         	      		  debuginf('compile error:');
