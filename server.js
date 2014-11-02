@@ -127,8 +127,8 @@ http.createServer(function (req, res) {
 	      
 	      debuginf(code);
           fs.writeFileSync('main.c', code);	      
-	      if (gcc == true) {
-              p.exec('gcc main.c api/libmeteroishell.a -o main',
+	      if (gcc == true) { //api/libmeteroishell.a
+              p.exec('gcc main.c  -o main',
               	      function (error,stdout,stderr) {
         	      		if (error !== null) {
         	      		  debuginf('compile error:');
@@ -187,6 +187,7 @@ http.createServer(function (req, res) {
 	// response of error message
 	if (path.basename(pathname) =="error") {
 		res.writeHead(200, {"Content-Type": "text/html"});
+	    debuginf(error_message);
 		res.end(error_message);
 		error_message = "";
 	}
@@ -194,6 +195,7 @@ http.createServer(function (req, res) {
 	// response of console message
 	if (path.basename(pathname) =="console") {
 		res.writeHead(200, {"Content-Type": "text/html"});
+	    debuginf(console_message);
 		res.end(console_message);
 		console_message = "";
 	}

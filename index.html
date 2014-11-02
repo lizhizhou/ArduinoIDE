@@ -402,6 +402,8 @@ int main(int argn, char* argv[])
 		xhr.open("get","console",false);
 		xhr.send();
 		var get = xhr.responseText;
+		get = get.replace(/\n/gi, '</p><p>');
+		get = get.replace(/\r/gi, '</p><p>');
 		document.getElementById("console").innerHTML += "<p>"+ get+"<\p>";
 	}; 
 	setInterval(console_polling, 1000);
@@ -411,6 +413,8 @@ int main(int argn, char* argv[])
 		xhr.open("get","error",false);
 		xhr.send();
 		var get = xhr.responseText;
+		get = get.replace(/\n/gi, '</p><p>');
+		get = get.replace(/\r/gi, '</p><p>');
 		document.getElementById("error").innerHTML += "<p>"+ get+"<\p>";
 	}; 
 	setInterval(error_polling, 1000);
