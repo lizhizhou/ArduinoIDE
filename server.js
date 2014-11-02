@@ -21,7 +21,7 @@ http.createServer(function (req, res) {
 	var filename = 'default';
 	debuginf(path.basename);
 	debuginf(pathname);
-	//response of run command
+	// response of run command
 	
 	if (path.basename(pathname) =="save") {
 		debuginf("save the code");
@@ -107,6 +107,8 @@ http.createServer(function (req, res) {
 	      });
 		 });
 	}
+
+	var gcc=true;
 	if (path.basename(pathname) =="run") {
 		debuginf("run the code");
 		pathname = path.dirname(pathname);
@@ -122,19 +124,41 @@ http.createServer(function (req, res) {
 		  code = querystring.parse(code); 
 		  debuginf(code);
 		  code = code.arg1;
+	      
 	      debuginf(code);
-		  fs.writeFileSync('main.c', code);
-	      p.exec('$(pwd)/meteroishell main.c ',
-      	      function (error,stdout,stderr) {
-	      		if (error !== null) {
-	      		  debuginf('program stop:');
-	      		}
-				console_message += stdout;
-				error_message += stderr;
-	      });
+          fs.writeFileSync('main.c', code);	      
+	      if (gcc == true) {
+              p.exec('gcc main.c api/libmeteroishell.a -o main',
+              	      function (error,stdout,stderr) {
+        	      		if (error !== null) {
+        	      		  debuginf('compile error:');
+        				  error_message += stderr + stdout;
+        	      	    } else {
+        	      	      p.exec('$(pwd)/main',
+        	              	      function (error,stdout,stderr) {
+        	        	      		if (error !== null) {
+        	        	      		  debuginf('run error:');
+        	        				  error_message += stderr;
+        	        	      	    } else {
+        	        					console_message += stdout;
+        	        	      	    }
+        	      	      });
+        	      	    } 
+        	  });
+	      } else {
+              p.exec('$(pwd)/meteroishell main.c ',
+	      	      function (error,stdout,stderr) {
+		      		if (error !== null) {
+		      		  debuginf('program stop:');
+		      	    }
+					console_message += stdout;
+					error_message += stderr;
+	      
+	          });
+	      }
         });
 	}
-	//response of stop command
+	// response of stop command
 	if (path.basename(pathname) =="stop") {
 	      p.exec('ps -ef |grep meteroi |grep -v grep|awk \'{print $2}\' | xargs kill -9',
       	      function (error,stdout,stderr) {
@@ -142,7 +166,7 @@ http.createServer(function (req, res) {
                 debuginf(stdout);
 	      });
 	}
-	//response of reboot command
+	// response of reboot command
 	if (path.basename(pathname) =="reboot") {
 	      p.exec('sudo reboot',
       	      function (error,stdout,stderr) {
@@ -150,14 +174,14 @@ http.createServer(function (req, res) {
 		        debuginf(stdout);
 	      });
 	}
-	//response of error message
+	// response of error message
 	if (path.basename(pathname) =="error") {
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(error_message);
 		error_message = "";
 	}
 	
-	//response of console message
+	// response of console message
 	if (path.basename(pathname) =="console") {
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(console_message);

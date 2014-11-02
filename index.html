@@ -256,7 +256,7 @@ int main(int argn, char* argv[])
 	
 	function load_api() {
 		var xhr = new XMLHttpRequest();	
-		xhr.open("get","doc/lophilo.h",false);
+		xhr.open("get","api/lophilo.h",false);
 		xhr.send();
 		var api_doc = xhr.responseText;
 		debuginf(api_doc);
