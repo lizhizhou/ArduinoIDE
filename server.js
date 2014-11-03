@@ -4,14 +4,22 @@ var http = require("http"),
 	fs   = require("fs");
 	querystring = require("querystring");  
 	p = require('child_process');
-
-var debug = true;
+var simulation = false;
+var debug = false;
 function debuginf(string) {
 	if (debug == true) {
 		console.log(string);
 	}
 }
-var simulation = true;
+
+var arguments = process.argv.splice(2);
+for (index in arguments)
+{
+	if (arguments[index]=="-sim") simulation=true;
+        else if (arguments[index]=="-debug") debug=true;
+		
+}
+
 var console_message = "";
 var error_message = "";
 http.createServer(function (req, res) {
@@ -97,6 +105,9 @@ http.createServer(function (req, res) {
 		  debuginf(version);
 		  version = version.arg1;
 	      debuginf(version);
+          if(simulation==true){
+                console_message += "fpga config ok";
+          } else {
 	      p.exec('$(pwd)/fpga_config.sh ' + 'config/' + version +'.rbf',
       	      function (error,stdout,stderr) {
 	      		if (error !== null) {
@@ -105,6 +116,7 @@ http.createServer(function (req, res) {
 				console_message += stdout;
 				error_message += stderr;
 	      });
+          }
 		 });
 	}
 
@@ -126,9 +138,16 @@ http.createServer(function (req, res) {
 		  code = code.arg1;
 	      
 	      debuginf(code);
-          fs.writeFileSync('main.c', code);	      
+              fs.writeFileSync('main.c', code);	      
 	      if (gcc == true) {
-              p.exec('gcc main.c api/libmeteroishell.a -o main',
+	      var command;
+              if (simulation == true)
+              {
+                    command  = "gcc main.c -o main";
+              } else {
+                    command  = "gcc main.c api/libmeteroishell.a -o main";
+              }
+              p.exec(command,
               	      function (error,stdout,stderr) {
         	      		if (error !== null) {
         	      		  debuginf('compile error:');
