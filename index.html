@@ -311,6 +311,16 @@ int main(int argn, char* argv[])
 	editor.setTheme("ace/theme/tomorrow");
 	editor.session.setMode("ace/mode/c_cpp");
 	
+//	var c_cppHighlightRules = require("ace/mode/c_cpp_highlight_rules").c_cppHighlightRules;
+//	this.$rules = new c_cppHighlightRules().getRules();
+//	var newRules = {
+//    "start": [{
+//                token : "support.function.C99.c",
+//                regex : "\\b(print|led|usleep|sleep)\\b"
+//            }]
+//    }
+//	this.addRules(newRules, "new-");
+	
 	// event handle for webpage
 	function save() {
 		var code = editor.getValue();
