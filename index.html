@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -182,7 +182,7 @@ int main(int argn, char* argv[])
 
 <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    var debug = true;
+    var debug = false;
 	function debuginf(string) {
 		if (debug == true) {
 			console.log(string);
@@ -244,7 +244,7 @@ int main(int argn, char* argv[])
 	
 	function is_function_type(str)
 	{
-		var re = new RegExp(".*\\(.*\\);");
+		var re = new RegExp("\\.*\\s([^\\(\\s]+)\\(.*\\);");
 		return str.match(re);
 	}
 	
@@ -271,7 +271,7 @@ int main(int argn, char* argv[])
 				comments_html += '<p>' + math[1] + '</p>';
 				i++;
 			}
-			if(is_function_type(api_doc_lines[i])) {
+			if(func = is_function_type(api_doc_lines[i])) {
 				html_list += '<div class="panel panel-default"> \
 				<div class="panel-heading"> \
 				<a data-toggle="collapse" data-parent="#accordion" href="#collapse'+ j +'"> \
@@ -287,6 +287,7 @@ int main(int argn, char* argv[])
 				</div> \
 				</div>'
 				comments_html = "";
+                debuginf(func[1]);
 			}
 			i++;
 		}

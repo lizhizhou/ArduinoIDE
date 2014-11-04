@@ -1,7 +1,8 @@
-#include<stdio.h>
 int main(int argn, char* argv[])
 {
-	printf("lophilo\n");
-	printf("lophilo1111\n");
+    while(1) {
+	    printf("lophilo\n");
+        sleep(1);
+    }
 	return 0;
 }
